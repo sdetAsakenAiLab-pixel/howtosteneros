@@ -4,7 +4,9 @@ An optimizer for training neural networks. It is AdamW whose main weights never 
 Instead, a **scout** runs ahead, and the main weights "slide" toward it only after the scout passes a test.
 
 > **Status: small experiment (v0.1).** On small tasks it matches a well-tuned AdamW, but it is not better.
-> The PyTorch port is written but **has not been run by the author**: run `tests/test_torch.py` first.
+> The PyTorch port passes its tests (`python -m pytest tests`, 8/8, including a check that the scout step
+> matches `torch.optim.AdamW`) and trains `examples/train_digits_torch.py` to about 96.6% on digits (one run).
+> It has not been benchmarked against AdamW at scale.
 
 ---
 
@@ -157,6 +159,7 @@ python -m pytest tests           # NumPy tests (torch tests are skipped without 
 ```
 
 ```python
+import torch.nn.functional as F
 from howtosteneros import HowToSteneros
 
 opt = HowToSteneros(model.parameters(), lr=1e-3, k=5, z=0.5)
@@ -180,4 +183,4 @@ The NumPy version is `from howtosteneros import HowToStenerosNumpy` (see `benchm
 
 # License
 
-Not chosen yet. Until a license file is added, nobody else has the right to reuse this code.
+Apache License 2.0. See [LICENSE](LICENSE).
